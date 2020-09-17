@@ -39,6 +39,7 @@ export default class App extends Component {
           contacts: [...prevState.contacts, onContact],
         };
       } else{
+        alert('such contact already exists')
         return {
           contacts: [...prevState.contacts],
         };
