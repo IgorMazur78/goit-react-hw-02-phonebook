@@ -34,7 +34,7 @@ export default class App extends Component {
     };
  
     this.setState((prevState) => {
-      if (onContact.name && onContact.number > 0 && contacts.some((e) => e.name !== onContact.name)) {
+      if (onContact.name && onContact.number && contacts.some((e) => e.name !== onContact.name)) {
         return {
           contacts: [...prevState.contacts, onContact],
         };
@@ -65,9 +65,12 @@ export default class App extends Component {
     });
   };
 
+
   render() {
     const { contacts, filter } = this.state;
     const showFilteredContacts = this.showFilteredValue();
+    console.log(showFilteredContacts);
+    
     return (
       <div>
         <Form onhandleAddContact={this.handleAddContact} />
@@ -75,18 +78,13 @@ export default class App extends Component {
         <Filter value={filter} onChange={this.handelInputChange} />
         <div>
           <h2>Contacts</h2>
-          {contacts.length > 0 && showFilteredContacts.length === 0 && (
-            <ListContact
-              contact={contacts}
-              onDeleteContact={this.deleteContact}
-            />
-          )}
-          {contacts.length > 0 && showFilteredContacts.length > 0 && (
+        
+          {(contacts.length > 1 && showFilteredContacts !== []) ? (
             <ListContact
               contact={this.showFilteredValue()}
               onDeleteContact={this.deleteContact}
             />
-          )}
+          ) : ""}
         </div>
       </div>
     );
