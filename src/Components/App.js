@@ -34,13 +34,18 @@ export default class App extends Component {
     };
  
     this.setState((prevState) => {
-      if (onContact.name && onContact.number && contacts.some((e) => e.name !== onContact.name)) {
+      if (onContact.name && onContact.number ) {
         return {
           contacts: [...prevState.contacts, onContact],
         };
-      } else{
+      } else if(contacts.some((e) => e.name === onContact.name ) || contacts.some((e) => e.number === onContact.number )) {
         alert('such contact already exists')
         return {
+          contacts: [...prevState.contacts],
+        };
+      } else {
+        alert ("maintains data")
+         return {
           contacts: [...prevState.contacts],
         };
       }
