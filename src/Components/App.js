@@ -16,10 +16,13 @@ export default class App extends Component {
     ],
     filter: "",
   };
+  
+
   // метод класса позволяющий при изменении значения записывать его в состояние state
   handelInputChange = (e) => {
     e.preventDefault();
-    this.setState({ [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
   };
   // метод позволяющий вносить изменения в state.contacts испльзуя state из другого класса
   // в данном случае из Form
@@ -27,25 +30,28 @@ export default class App extends Component {
     const { contacts } = this.state;
     // name,number передаваемые состояния state из Form
 
-    const onContact = {
+    const newContact = {
       id: uuid(),
       name,
       number,
     };
- 
+
     this.setState((prevState) => {
-      if (onContact.name && onContact.number ) {
+      if (newContact.name && newContact.number) {
         return {
-          contacts: [...prevState.contacts, onContact],
+          contacts: [...prevState.contacts, newContact],
         };
-      } else if(contacts.some((e) => e.name === onContact.name ) || contacts.some((e) => e.number === onContact.number )) {
-        alert('such contact already exists')
+      } else if (
+        contacts.some((e) => e.name === newContact.name) ||
+        contacts.some((e) => e.number === newContact.number)
+      ) {
+        alert("such contact already exists");
         return {
           contacts: [...prevState.contacts],
         };
       } else {
-        alert ("maintains data")
-         return {
+        alert("maintains data");
+        return {
           contacts: [...prevState.contacts],
         };
       }
@@ -70,12 +76,11 @@ export default class App extends Component {
     });
   };
 
-
   render() {
     const { contacts, filter } = this.state;
     const showFilteredContacts = this.showFilteredValue();
-    console.log(showFilteredContacts);
-    
+
+
     return (
       <div>
         <Form onhandleAddContact={this.handleAddContact} />
@@ -83,13 +88,15 @@ export default class App extends Component {
         <Filter value={filter} onChange={this.handelInputChange} />
         <div>
           <h2>Contacts</h2>
-        
-          {(contacts.length > 1 && showFilteredContacts !== []) ? (
+
+          {(contacts.length > 1 && showFilteredContacts.length > 0) && (
             <ListContact
               contact={this.showFilteredValue()}
               onDeleteContact={this.deleteContact}
             />
-          ) : ""}
+          ) 
+          
+          }
         </div>
       </div>
     );

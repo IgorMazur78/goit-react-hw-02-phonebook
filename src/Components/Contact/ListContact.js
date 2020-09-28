@@ -6,10 +6,10 @@ import style from "./Listcontact.module.css"
 export default function ListContact({ contact, onDeleteContact }) {
   return (
     <ul>
-      {contact.map((e) => (
-        <li key={e.id}><span>{e.name}:{e.number}</span>
+      {contact.map(({id,name,number}) => (
+        <li key={id}><span>{name}:{number}</span>
           
-          <button className = {style.buttonDeleteContact} onClick={() => onDeleteContact(e.id)}>Delete</button>
+          <button className = {style.buttonDeleteContact} onClick={() => onDeleteContact(id)}>Delete</button>
         </li>
       ))}
     </ul>
