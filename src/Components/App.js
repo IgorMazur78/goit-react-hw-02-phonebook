@@ -16,7 +16,6 @@ export default class App extends Component {
     ],
     filter: "",
   };
-  
 
   // метод класса позволяющий при изменении значения записывать его в состояние state
   handelInputChange = (e) => {
@@ -35,22 +34,23 @@ export default class App extends Component {
       name,
       number,
     };
+    const oldContactName = contacts.some((e) => e.name === newContact.name);
+    const oldContactNumber = contacts.some(
+      (e) => e.number === newContact.number
+    );
 
     this.setState((prevState) => {
-      if (newContact.name && newContact.number) {
+      if (newContact.name && newContact.number && oldContactNumber === false) {
         return {
           contacts: [...prevState.contacts, newContact],
         };
-      } else if (
-        contacts.some((e) => e.name === newContact.name) ||
-        contacts.some((e) => e.number === newContact.number)
-      ) {
+      } else if (oldContactName === true && oldContactNumber === true) {
         alert("such contact already exists");
         return {
           contacts: [...prevState.contacts],
         };
       } else {
-        alert("maintains data");
+        alert("enter data");
         return {
           contacts: [...prevState.contacts],
         };
@@ -80,7 +80,6 @@ export default class App extends Component {
     const { contacts, filter } = this.state;
     const showFilteredContacts = this.showFilteredValue();
 
-
     return (
       <div>
         <Form onhandleAddContact={this.handleAddContact} />
@@ -89,14 +88,12 @@ export default class App extends Component {
         <div>
           <h2>Contacts</h2>
 
-          {(contacts.length > 1 && showFilteredContacts.length > 0) && (
+          {contacts.length > 0 && showFilteredContacts.length > 0 && (
             <ListContact
               contact={this.showFilteredValue()}
               onDeleteContact={this.deleteContact}
             />
-          ) 
-          
-          }
+          )}
         </div>
       </div>
     );
