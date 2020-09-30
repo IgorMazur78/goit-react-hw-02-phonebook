@@ -34,27 +34,27 @@ export default class App extends Component {
       name,
       number,
     };
-    const oldContactName = contacts.some((e) => e.name === newContact.name);
-    const oldContactNumber = contacts.some(
+    const prevContactName = contacts.some((e) => e.name === newContact.name);
+    const prevContactNumber = contacts.some(
       (e) => e.number === newContact.number
     );
+    if (prevContactName || prevContactNumber) {
+      alert("such contact already exists");
+      return;
+    }
+    if (!newContact.name || !newContact.number) {
+      alert("enter data");
+      return;
+    }
 
+  
     this.setState((prevState) => {
-      if (newContact.name && newContact.number && oldContactNumber === false) {
+      if (newContact.name && newContact.number && prevContactNumber === false) {
         return {
           contacts: [...prevState.contacts, newContact],
         };
-      } else if (oldContactName === true && oldContactNumber === true) {
-        alert("such contact already exists");
-        return {
-          contacts: [...prevState.contacts],
-        };
-      } else {
-        alert("enter data");
-        return {
-          contacts: [...prevState.contacts],
-        };
-      }
+      } 
+      
     });
   };
   deleteContact = (contactsId) => {
